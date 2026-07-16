@@ -254,6 +254,19 @@ The app runs at `http://localhost:5173/`. No API key is required — the app use
 
 ---
 
+## ☁️ Deploy to Render
+
+FanPulse comes pre-configured for a zero-downtime deployment on Render. 
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
+
+1. Click the **Deploy to Render** button above.
+2. Render will automatically detect the `render.yaml` blueprint.
+3. Provide an optional `VITE_ANTHROPIC_API_KEY` when prompted in the Render dashboard (the app works with mock fallbacks without it).
+4. Render will build and deploy the application as a Static Site.
+
+---
+
 ## 📊 Impact Framing
 
 | Impact Area | How FanPulse Helps |
