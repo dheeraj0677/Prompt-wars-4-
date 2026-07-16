@@ -1,4 +1,6 @@
 // Claude API service — all AI calls go through api.anthropic.com/v1/messages
+import { ZONES as ZONE_LIST } from '../data/stadium';
+
 const API_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-sonnet-4-6';
 const MAX_INPUT_LENGTH = 500;
@@ -12,7 +14,7 @@ let lastCallTimestamp = 0;
  * @param {string} input - Raw user input
  * @returns {string} Sanitized input safe for API consumption
  */
-function sanitizeInput(input) {
+export function sanitizeInput(input) {
   if (typeof input !== 'string') return '';
   return input
     .trim()
@@ -61,20 +63,29 @@ async function callClaude(system, userMessage, maxTokens = 1024) {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Claude API error:', response.status, errorText);
+      if (import.meta.env.DEV) {
+        console.error('Claude API error:', response.status, errorText);
+      }
       throw new Error(`API error: ${response.status}`);
     }
 
     const data = await response.json();
     return data.content[0].text;
   } catch (error) {
-    console.error('Claude API call failed:', error);
+    if (import.meta.env.DEV) {
+      console.error('Claude API call failed:', error);
+    }
     throw error;
   }
 }
 
-// Parse the intent JSON from the response (first line)
-function parseIntentFromResponse(text) {
+/**
+ * Parses structured intent JSON from the first line of a Claude response.
+ * Falls back to a default intent if parsing fails.
+ * @param {string} text - Raw Claude response text
+ * @returns {{ intent: Object, responseText: string }} Parsed intent and clean response
+ */
+export function parseIntentFromResponse(text) {
   try {
     const firstLine = text.split('\n')[0].trim();
     if (firstLine.startsWith('{')) {
@@ -255,7 +266,7 @@ function detectZone(message, zones) {
   return null;
 }
 
-import { ZONES as ZONE_LIST } from '../data/stadium';
+
 
 // Main mock response function
 export function getMockFanResponse(message, fanLocation) {

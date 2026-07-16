@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { QueryProvider, useQueryStore } from './store/queryStore';
 import Header from './components/Header';
 import FanView from './components/Fan/FanView';
@@ -7,6 +8,13 @@ import ErrorBoundary from './components/ErrorBoundary';
 
 function AppContent() {
   const { activeView } = useQueryStore();
+  const mainRef = useRef(null);
+
+  useEffect(() => {
+    if (mainRef.current) {
+      mainRef.current.focus();
+    }
+  }, [activeView]);
 
   return (
     <div className="app-container">
@@ -15,7 +23,7 @@ function AppContent() {
         Skip to main content
       </a>
       <Header />
-      <main id="main-content" className="main-content" key={activeView} role="main" aria-label="FanPulse main content area">
+      <main ref={mainRef} tabIndex="-1" id="main-content" className="main-content" key={activeView} role="main" aria-label="FanPulse main content area" style={{ outline: 'none' }}>
         {activeView === 'fan' && <FanView />}
         {activeView === 'staff' && <StaffView />}
         {activeView === 'analytics' && <AnalyticsView />}

@@ -1,5 +1,6 @@
 // Shared state store — React Context + useReducer for fan queries and operational data
 import { createContext, useContext, useReducer, useCallback, useRef, useEffect, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { generateSyntheticQuery, generateInitialBatch } from '../data/simulator';
 import { ZONES } from '../data/stadium';
 
@@ -7,6 +8,7 @@ const QueryContext = createContext(null);
 
 const ANOMALY_THRESHOLD = 2.5; // multiplier over average
 const ROLLING_WINDOW_MS = 5 * 60 * 1000; // 5 minutes
+const PRUNE_THRESHOLD_MS = 15 * 60 * 1000; // drop queries older than 15 minutes
 
 const initialState = {
   queries: [],
@@ -27,7 +29,7 @@ const initialState = {
  * @param {Array} queries - All logged queries
  * @returns {Object} Map of zoneId → { zone, count, velocity, queries, level }
  */
-function computeZoneStats(queries) {
+export function computeZoneStats(queries) {
   const now = Date.now();
   const recentQueries = queries.filter(q => now - new Date(q.timestamp).getTime() < ROLLING_WINDOW_MS);
 
@@ -62,7 +64,7 @@ function computeZoneStats(queries) {
  * @param {Object} zoneStats - Pre-computed zone statistics
  * @returns {Array} List of anomaly objects with type, severity, and description
  */
-function computeAnomalies(queries, zoneStats) {
+export function computeAnomalies(queries, zoneStats) {
   const anomalies = [];
   const avgCount = Object.values(zoneStats).reduce((s, z) => s + z.count, 0) / Object.values(zoneStats).length;
 
@@ -112,7 +114,7 @@ function computeAnomalies(queries, zoneStats) {
  * @param {Array} queries - All logged queries
  * @returns {Array} Sorted list of trending topic clusters
  */
-function computeTrending(queries) {
+export function computeTrending(queries) {
   const now = Date.now();
   const recent = queries.filter(q => now - new Date(q.timestamp).getTime() < ROLLING_WINDOW_MS);
   const prev = queries.filter(q => {
@@ -148,8 +150,12 @@ function computeTrending(queries) {
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'ADD_QUERY':
-      return { ...state, queries: [...state.queries, action.payload] };
+    case 'ADD_QUERY': {
+      const pruned = state.queries.length > 200
+        ? state.queries.filter(q => Date.now() - new Date(q.timestamp).getTime() < PRUNE_THRESHOLD_MS)
+        : state.queries;
+      return { ...state, queries: [...pruned, action.payload] };
+    }
     case 'ADD_QUERIES':
       return { ...state, queries: [...state.queries, ...action.payload] };
     case 'ADD_FAN_MESSAGE':
@@ -203,6 +209,10 @@ export function QueryProvider({ children }) {
   const zoneStats = useMemo(() => computeZoneStats(state.queries), [state.queries]);
   const anomalies = useMemo(() => computeAnomalies(state.queries, zoneStats), [state.queries, zoneStats]);
   const trending = useMemo(() => computeTrending(state.queries), [state.queries]);
+  const recentQueryCount = useMemo(
+    () => state.queries.filter(q => Date.now() - new Date(q.timestamp).getTime() < ROLLING_WINDOW_MS).length,
+    [state.queries]
+  );
 
   const value = {
     ...state,
@@ -210,7 +220,7 @@ export function QueryProvider({ children }) {
     zoneStats,
     anomalies,
     trending,
-    recentQueryCount: state.queries.filter(q => Date.now() - new Date(q.timestamp).getTime() < ROLLING_WINDOW_MS).length,
+    recentQueryCount,
 
     addFanMessage: useCallback((msg) => {
       dispatch({ type: 'ADD_FAN_MESSAGE', payload: msg });
@@ -287,6 +297,10 @@ export function QueryProvider({ children }) {
     </QueryContext.Provider>
   );
 }
+
+QueryProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export function useQueryStore() {
   const ctx = useContext(QueryContext);

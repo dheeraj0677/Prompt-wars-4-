@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * ErrorBoundary — catches rendering errors in child components and
@@ -22,8 +23,9 @@ export default class ErrorBoundary extends Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    // Log error details for debugging (would go to a logging service in production)
-    console.error('[FanPulse ErrorBoundary]', error, errorInfo);
+    if (import.meta.env.DEV) {
+      console.error('[FanPulse ErrorBoundary]', error, errorInfo);
+    }
   }
 
   handleReset = () => {
@@ -93,3 +95,7 @@ export default class ErrorBoundary extends Component {
     return this.props.children;
   }
 }
+
+ErrorBoundary.propTypes = {
+  children: PropTypes.node.isRequired,
+};

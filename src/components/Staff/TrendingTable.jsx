@@ -1,3 +1,4 @@
+import React from 'react';
 import { useQueryStore } from '../../store/queryStore';
 
 const INTENT_ICONS = {
@@ -13,7 +14,7 @@ const INTENT_ICONS = {
   general: '💬',
 };
 
-export default function TrendingTable() {
+const TrendingTable = React.memo(function TrendingTable() {
   const { trending } = useQueryStore();
 
   if (trending.length === 0) {
@@ -36,14 +37,15 @@ export default function TrendingTable() {
         <span className="section-title">📈 Trending Issues & Volume Signals</span>
       </div>
 
-      <table className="trending-table">
+      <table className="trending-table" aria-label="Trending issues and volume signals">
+        <caption className="sr-only">Table showing trending topics and their volume across different stadium zones</caption>
         <thead>
           <tr>
-            <th>Topic Cluster</th>
-            <th>Location</th>
-            <th>Volume</th>
-            <th>Velocity</th>
-            <th>Staff Action</th>
+            <th scope="col">Topic Cluster</th>
+            <th scope="col">Location</th>
+            <th scope="col">Volume</th>
+            <th scope="col">Velocity</th>
+            <th scope="col">Staff Action</th>
           </tr>
         </thead>
         <tbody>
@@ -58,7 +60,7 @@ export default function TrendingTable() {
               <td>
                 <span className="trending-zone-badge">{item.zoneName}</span>
               </td>
-              <td style={{ fontWeight: 700, fontFamily: 'var(--font-display)' }}>
+              <td className="trending-volume">
                 {item.count}
               </td>
               <td>
@@ -77,4 +79,6 @@ export default function TrendingTable() {
       </table>
     </div>
   );
-}
+});
+
+export default TrendingTable;

@@ -1,14 +1,15 @@
+import React from 'react';
 import { useQueryStore } from '../../store/queryStore';
 import { ZONES } from '../../data/stadium';
 
-export default function Heatmap() {
+const Heatmap = React.memo(function Heatmap() {
   const { zoneStats } = useQueryStore();
 
   return (
     <div className="heatmap-container">
       <div className="section-header">
         <span className="section-title">🏟️ Stadium Live Query Heatmap</span>
-        <span style={{ fontSize: 11, color: 'var(--text-muted)', padding: '4px 12px', background: 'var(--bg-surface)', borderRadius: 'var(--radius-full)', border: '1px solid var(--border-subtle)' }}>
+        <span className="real-time-badge" aria-label="Real-time density indicator">
           Real-time Density
         </span>
       </div>
@@ -48,4 +49,6 @@ export default function Heatmap() {
       </div>
     </div>
   );
-}
+});
+
+export default Heatmap;

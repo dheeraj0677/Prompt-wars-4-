@@ -1,5 +1,4 @@
-// Fan Engagement Hub — polls, predictions, trivia, mood
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const POLLS = [
   { id: 'p1', question: 'Who will score next?', options: [
@@ -31,7 +30,7 @@ const MOODS = [
   { emoji: '🎉', label: 'Celebrating', count: 8934 },
 ];
 
-export default function FanEngagement() {
+const FanEngagement = React.memo(function FanEngagement() {
   const [activePoll, setActivePoll] = useState(0);
   const [voted, setVoted] = useState({});
   const [triviaIndex, setTriviaIndex] = useState(0);
@@ -73,9 +72,9 @@ export default function FanEngagement() {
       <div className="engagement-card">
         <div className="engagement-header">
           <span>📊 Live Poll</span>
-          <div className="poll-nav">
+          <div className="poll-nav" role="tablist" aria-label="Poll navigation">
             {POLLS.map((_, i) => (
-              <button key={i} className={`poll-dot ${i === activePoll ? 'active' : ''}`} onClick={() => setActivePoll(i)} />
+              <button key={i} role="tab" aria-selected={i === activePoll} aria-label={`View poll ${i + 1}`} className={`poll-dot ${i === activePoll ? 'active' : ''}`} onClick={() => setActivePoll(i)} />
             ))}
           </div>
         </div>
@@ -85,7 +84,7 @@ export default function FanEngagement() {
             const percent = Math.round((opt.votes / totalVotes) * 100);
             const isVoted = voted[currentPoll.id] === i;
             return (
-              <button key={i} className={`poll-option ${isVoted ? 'voted' : ''} ${voted[currentPoll.id] !== undefined ? 'revealed' : ''}`}
+              <button key={i} aria-pressed={isVoted} aria-label={`Vote for ${opt.label}`} className={`poll-option ${isVoted ? 'voted' : ''} ${voted[currentPoll.id] !== undefined ? 'revealed' : ''}`}
                 onClick={() => handleVote(currentPoll.id, i)}>
                 <div className="poll-bar" style={{ width: voted[currentPoll.id] !== undefined ? `${percent}%` : '0%' }} />
                 <span className="poll-label">{opt.label}</span>
@@ -138,4 +137,6 @@ export default function FanEngagement() {
       </div>
     </div>
   );
-}
+});
+
+export default FanEngagement;

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import DOMPurify from 'dompurify';
 import { useQueryStore } from '../../store/queryStore';
 import { staffAnalystChat, getMockStaffResponse } from '../../services/ai';
 import { buildStaffPrompt } from '../../services/prompts';
@@ -58,7 +59,9 @@ export default function StaffChat() {
         timestamp: new Date().toISOString(),
       });
     } catch (err) {
-      console.error('Staff chat error:', err);
+      if (import.meta.env.DEV) {
+        console.error('Staff chat error:', err);
+      }
       addStaffMessage({
         id: `staff-error-${Date.now()}`,
         role: 'assistant',
@@ -81,25 +84,28 @@ export default function StaffChat() {
     <div className="staff-chat">
       <div className="staff-chat-header">
         <span className="section-title">🤖 AI Staff Analyst</span>
-        <span style={{ fontSize: 10, color: 'var(--accent-emerald)', fontWeight: 600, padding: '2px 8px', background: '#ecfdf5', borderRadius: 'var(--radius-full)', border: '1px solid rgba(16,185,129,0.2)' }}>
+        <span className="intelligence-badge" aria-label="Module status: Intelligence Active">
           Intelligence
         </span>
       </div>
 
-      <div className="staff-chat-messages">
-        {staffMessages.map((msg) => (
-          <div key={msg.id} className={`staff-message ${msg.role}`}>
-            {msg.content.split('\n').map((line, i) => (
-              <span key={i}>
-                {line.startsWith('**') ? <strong>{line.replace(/\*\*/g, '')}</strong> : line}
-                {i < msg.content.split('\n').length - 1 && <br />}
-              </span>
-            ))}
-          </div>
-        ))}
+      <div className="staff-chat-messages" role="log" aria-live="polite" aria-label="Staff chat logs">
+        {staffMessages.map((msg) => {
+          const safeContent = DOMPurify.sanitize(msg.content);
+          return (
+            <div key={msg.id} className={`staff-message ${msg.role}`}>
+              {safeContent.split('\n').map((line, i) => (
+                <span key={i}>
+                  {line.startsWith('**') ? <strong>{line.replace(/\*\*/g, '')}</strong> : line}
+                  {i < safeContent.split('\n').length - 1 && <br />}
+                </span>
+              ))}
+            </div>
+          );
+        })}
 
         {isLoading && (
-          <div className="staff-message assistant" style={{ fontStyle: 'italic', color: '#94a3b8' }}>
+          <div className="staff-message assistant analyzing-message" aria-label="AI is analyzing logs">
             Analyzing real-time tagged logs...
           </div>
         )}
@@ -115,12 +121,13 @@ export default function StaffChat() {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           disabled={isLoading}
+          aria-label="Ask the Staff AI Analyst"
         />
         <button
-          className="send-btn"
+          className="send-btn staff-send-btn"
           onClick={() => sendMessage(input)}
           disabled={!input.trim() || isLoading}
-          style={{ width: 36, height: 36, fontSize: 14 }}
+          aria-label="Send message to AI Analyst"
         >
           ➤
         </button>

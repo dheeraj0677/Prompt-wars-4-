@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import DOMPurify from 'dompurify';
 import { useQueryStore } from '../../store/queryStore';
 import { fanConciergeChat, getMockFanResponse } from '../../services/ai';
 import { buildFanPrompt } from '../../services/prompts';
@@ -110,7 +111,9 @@ export default function ChatPanel() {
 
       addFanMessage(aiMsg);
     } catch (err) {
-      console.error('Chat error:', err);
+      if (import.meta.env.DEV) {
+        console.error('Chat error:', err);
+      }
       addFanMessage({
         id: `error-${Date.now()}`,
         role: 'assistant',
@@ -164,7 +167,7 @@ export default function ChatPanel() {
                 {msg.role === 'user' ? '👤' : '🤖'}
               </div>
               <div>
-                <div className="message-bubble">{msg.content}</div>
+                <div className="message-bubble">{DOMPurify.sanitize(msg.content)}</div>
                 <div className="message-meta">
                   <span>{formatTime(msg.timestamp)}</span>
                   {msg.intent && msg.role === 'assistant' && (
@@ -183,7 +186,7 @@ export default function ChatPanel() {
 
         {isLoading && (
           <div className="typing-indicator" role="status" aria-label="AI is typing a response">
-            <div className="message-avatar" style={{ background: 'linear-gradient(135deg, #10b981, #06b6d4)', width: 32, height: 32, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 6px rgba(16,185,129,0.25)' }}>
+            <div className="message-avatar ai-avatar-styled">
               🤖
             </div>
             <div className="typing-dots" aria-hidden="true">

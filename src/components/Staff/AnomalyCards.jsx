@@ -1,6 +1,7 @@
+import React from 'react';
 import { useQueryStore } from '../../store/queryStore';
 
-export default function AnomalyCards() {
+const AnomalyCards = React.memo(function AnomalyCards() {
   const { anomalies } = useQueryStore();
 
   const formatTime = (ts) => {
@@ -9,21 +10,13 @@ export default function AnomalyCards() {
   };
 
   return (
-    <div>
+    <div aria-live="polite" aria-atomic="true">
       <div className="section-header">
         <span className="section-title">⚠️ Active Anomalies</span>
       </div>
 
       {anomalies.length === 0 ? (
-        <div style={{
-          padding: 'var(--sp-xl)',
-          textAlign: 'center',
-          color: 'var(--accent-emerald)',
-          fontSize: 13,
-          background: '#ecfdf5',
-          borderRadius: 'var(--radius-md)',
-          border: '1px solid rgba(16, 185, 129, 0.2)'
-        }}>
+        <div className="all-clear-box">
           ✅ All zones operating within normal parameters
         </div>
       ) : (
@@ -50,4 +43,6 @@ export default function AnomalyCards() {
       )}
     </div>
   );
-}
+});
+
+export default AnomalyCards;

@@ -1,7 +1,8 @@
+import React from 'react';
 import { useQueryStore } from '../../store/queryStore';
 import { ZONES, ZONE_MAP } from '../../data/stadium';
 
-export default function StadiumMap() {
+const StadiumMap = React.memo(function StadiumMap() {
   const { fanLocation, setFanLocation, zoneStats } = useQueryStore();
 
   const getZoneColor = (zoneId) => {
@@ -171,4 +172,6 @@ export default function StadiumMap() {
       </svg>
     </div>
   );
-}
+});
+
+export default StadiumMap;

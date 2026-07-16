@@ -152,3 +152,46 @@ describe('getMockShiftSummary', () => {
     expect(result).toContain('FORECAST');
   });
 });
+
+// ── sanitizeInput ───────────────────────────────────────────
+
+import { sanitizeInput, parseIntentFromResponse } from './ai';
+
+describe('sanitizeInput', () => {
+  it('trims whitespace', () => {
+    expect(sanitizeInput('   hello   ')).toBe('hello');
+  });
+
+  it('removes control characters', () => {
+    expect(sanitizeInput('hello\x00world\x0B!')).toBe('helloworld!');
+  });
+
+  it('limits input to 500 characters', () => {
+    const longInput = 'a'.repeat(600);
+    expect(sanitizeInput(longInput).length).toBe(500);
+  });
+
+  it('handles non-string inputs safely', () => {
+    expect(sanitizeInput(null)).toBe('');
+    expect(sanitizeInput(123)).toBe('');
+  });
+});
+
+// ── parseIntentFromResponse ─────────────────────────────────
+
+describe('parseIntentFromResponse', () => {
+  it('parses structured JSON on the first line', () => {
+    const rawResponse = '{"intent":"wayfinding","zone":"gate-a","language":"en","urgency":"normal"}\nHere is how to get there...';
+    const parsed = parseIntentFromResponse(rawResponse);
+    expect(parsed.intent.intent).toBe('wayfinding');
+    expect(parsed.responseText).toBe('Here is how to get there...');
+  });
+
+  it('falls back to default intent if parsing fails', () => {
+    const rawResponse = 'Just a regular text response without JSON\nSecond line';
+    const parsed = parseIntentFromResponse(rawResponse);
+    expect(parsed.intent.intent).toBe('general');
+    expect(parsed.intent.zone).toBe('unknown');
+    expect(parsed.responseText).toBe(rawResponse);
+  });
+});

@@ -69,11 +69,11 @@ export default function Header() {
           <span>🌐</span>
           EN/ES/FR
         </div>
-        <button className="header-icon-btn" title="Notifications" style={{ position: 'relative' }}>
+        <button className="header-icon-btn" aria-label={`Notifications, ${anomalies.length} unread`} title="Notifications" style={{ position: 'relative' }}>
           🔔
-          {anomalies.length > 0 && <span className="notification-count">{anomalies.length}</span>}
+          {anomalies.length > 0 && <span className="notification-count" aria-hidden="true">{anomalies.length}</span>}
         </button>
-        <div className="header-avatar" title="Profile">
+        <div className="header-avatar" title="Profile" role="button" tabIndex="0" aria-label="User Profile">
           D
         </div>
       </div>
