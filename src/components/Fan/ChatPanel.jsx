@@ -148,7 +148,7 @@ export default function ChatPanel() {
         </div>
       </div>
 
-      <div className="chat-messages">
+      <div className="chat-messages" role="log" aria-live="polite" aria-label="Chat conversation with FanPulse AI Concierge">
         {fanMessages.map((msg) => {
           if (msg.role === 'nudge') {
             return (
@@ -182,11 +182,11 @@ export default function ChatPanel() {
         })}
 
         {isLoading && (
-          <div className="typing-indicator">
-            <div className="message-avatar" style={{ background: 'linear-gradient(135deg, #10b981, #06b6d4)', width: 32, height: 32, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div className="typing-indicator" role="status" aria-label="AI is typing a response">
+            <div className="message-avatar" style={{ background: 'linear-gradient(135deg, #10b981, #06b6d4)', width: 32, height: 32, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 6px rgba(16,185,129,0.25)' }}>
               🤖
             </div>
-            <div className="typing-dots">
+            <div className="typing-dots" aria-hidden="true">
               <div className="typing-dot" />
               <div className="typing-dot" />
               <div className="typing-dot" />
@@ -221,18 +221,21 @@ export default function ChatPanel() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             disabled={isLoading}
+            aria-label="Type your question to the stadium concierge"
+            autoComplete="off"
           />
           <button
             className="send-btn"
             onClick={() => sendMessage(input)}
             disabled={!input.trim() || isLoading}
+            aria-label="Send message"
           >
             ➤
           </button>
         </div>
         <div className="chat-footer-info">
           <span>🔒 End-to-end encrypted · Data anonymized</span>
-          <span style={{ color: 'var(--accent-red)', cursor: 'pointer', fontWeight: 600 }}>
+          <span style={{ color: '#dc2626', cursor: 'pointer', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: 10 }}>
             Report Incident
           </span>
         </div>

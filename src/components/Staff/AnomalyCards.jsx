@@ -20,9 +20,9 @@ export default function AnomalyCards() {
           textAlign: 'center',
           color: 'var(--accent-emerald)',
           fontSize: 13,
-          background: 'rgba(16, 185, 129, 0.06)',
+          background: '#ecfdf5',
           borderRadius: 'var(--radius-md)',
-          border: '1px solid rgba(16, 185, 129, 0.15)'
+          border: '1px solid rgba(16, 185, 129, 0.2)'
         }}>
           ✅ All zones operating within normal parameters
         </div>

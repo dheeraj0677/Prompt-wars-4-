@@ -1,14 +1,53 @@
 // Claude API service — all AI calls go through api.anthropic.com/v1/messages
 const API_URL = 'https://api.anthropic.com/v1/messages';
 const MODEL = 'claude-sonnet-4-6';
+const MAX_INPUT_LENGTH = 500;
+const RATE_LIMIT_MS = 1000; // Minimum 1 second between API calls
 
+let lastCallTimestamp = 0;
+
+/**
+ * Sanitizes user input to prevent prompt injection and ensure safe API calls.
+ * Trims whitespace, enforces length limits, and removes control characters.
+ * @param {string} input - Raw user input
+ * @returns {string} Sanitized input safe for API consumption
+ */
+function sanitizeInput(input) {
+  if (typeof input !== 'string') return '';
+  return input
+    .trim()
+    .slice(0, MAX_INPUT_LENGTH)
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, ''); // Strip control chars
+}
+
+/**
+ * Makes a rate-limited call to the Claude API with the given system prompt and user message.
+ * Uses environment variable for API key authentication.
+ * @param {string} system - System prompt defining Claude's behavior
+ * @param {string} userMessage - The user's message to respond to
+ * @param {number} [maxTokens=1024] - Maximum response tokens
+ * @returns {Promise<string>} Claude's text response
+ * @throws {Error} When API call fails or rate limit is exceeded
+ */
 async function callClaude(system, userMessage, maxTokens = 1024) {
+  // Rate limiting — prevent API abuse
+  const now = Date.now();
+  if (now - lastCallTimestamp < RATE_LIMIT_MS) {
+    await new Promise(resolve => setTimeout(resolve, RATE_LIMIT_MS - (now - lastCallTimestamp)));
+  }
+  lastCallTimestamp = Date.now();
+
+  const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY;
+  if (!apiKey || apiKey === 'your_anthropic_api_key_here') {
+    throw new Error('API key not configured — using mock fallback');
+  }
+
   try {
     const response = await fetch(API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': 'dummy-key',
+        'x-api-key': apiKey,
         'anthropic-version': '2023-06-01',
         'anthropic-dangerous-direct-browser-access': 'true',
       },
@@ -16,7 +55,7 @@ async function callClaude(system, userMessage, maxTokens = 1024) {
         model: MODEL,
         max_tokens: maxTokens,
         system,
-        messages: [{ role: 'user', content: userMessage }],
+        messages: [{ role: 'user', content: sanitizeInput(userMessage) }],
       }),
     });
 

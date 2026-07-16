@@ -25,10 +25,10 @@ export default function Sidebar() {
       <div className="sidebar-card">
         <div className="sidebar-card-header">
           <span className="sidebar-card-title">🏟️ Live Stadium Map</span>
-          <span className="sidebar-card-badge">{currentZone?.shortName || 'N/A'}</span>
+          <span className="sidebar-card-badge">SEC 112</span>
         </div>
         <p style={{ fontSize: 12, color: 'var(--text-secondary)', marginBottom: 'var(--sp-md)' }}>
-          Navigating from <strong style={{ color: 'var(--text-primary)' }}>{currentZone?.name}</strong>
+          Navigating from your current position at <strong style={{ color: 'var(--text-primary)' }}>{currentZone?.name}</strong>
         </p>
         <StadiumMap />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 'var(--sp-md)' }}>
@@ -36,6 +36,9 @@ export default function Sidebar() {
             <span className="live-dot" style={{ width: 6, height: 6 }} />
             <span>Location Tracking Active</span>
           </div>
+          <span style={{ fontSize: 11, color: 'var(--text-accent)', cursor: 'pointer', fontWeight: 500 }}>
+            Recenter Map &rsaquo;
+          </span>
         </div>
         <div style={{ marginTop: 'var(--sp-md)' }}>
           <label style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4, display: 'block', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
@@ -108,7 +111,7 @@ export default function Sidebar() {
             <span>🚨</span> Safety Notice
           </div>
           <div className="safety-notice-text">
-            {nearbyAnomalies[0].description} Please use alternative routes if possible.
+            {nearbyAnomalies[0].description} Please use Gate B or C for faster stadium entry.
           </div>
         </div>
       )}
@@ -124,7 +127,7 @@ export default function Sidebar() {
               .filter(([, v]) => v)
               .map(([key, value]) => (
                 <div key={key} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12 }}>
-                  <span style={{ color: 'var(--accent-cyan)', fontWeight: 600, textTransform: 'capitalize', minWidth: 60 }}>
+                  <span style={{ color: 'var(--accent-blue)', fontWeight: 600, textTransform: 'capitalize', minWidth: 60 }}>
                     {key}:
                   </span>
                   <span style={{ color: 'var(--text-secondary)' }}>{value}</span>

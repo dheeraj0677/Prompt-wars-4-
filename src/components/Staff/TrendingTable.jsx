@@ -43,6 +43,7 @@ export default function TrendingTable() {
             <th>Location</th>
             <th>Volume</th>
             <th>Velocity</th>
+            <th>Staff Action</th>
           </tr>
         </thead>
         <tbody>
@@ -64,6 +65,11 @@ export default function TrendingTable() {
                 <span className={`trending-velocity ${item.velocity > 0 ? 'positive' : item.velocity < 0 ? 'negative' : 'neutral'}`}>
                   {item.velocity > 0 ? '+' : ''}{item.velocity > 100 ? '↑ New' : `${item.velocity}%`}
                 </span>
+              </td>
+              <td>
+                <button className="staff-action-btn">
+                  {item.velocity > 50 ? '🔔 Alert' : '👁️ Monitor'}
+                </button>
               </td>
             </tr>
           ))}

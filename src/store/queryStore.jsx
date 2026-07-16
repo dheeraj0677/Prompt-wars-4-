@@ -1,5 +1,5 @@
 // Shared state store — React Context + useReducer for fan queries and operational data
-import { createContext, useContext, useReducer, useCallback, useRef, useEffect } from 'react';
+import { createContext, useContext, useReducer, useCallback, useRef, useEffect, useMemo } from 'react';
 import { generateSyntheticQuery, generateInitialBatch } from '../data/simulator';
 import { ZONES } from '../data/stadium';
 
@@ -20,6 +20,13 @@ const initialState = {
   avgLatency: 1.2,
 };
 
+/**
+ * Computes per-zone query statistics over a rolling time window.
+ * Calculates query counts, velocity (rate of change vs previous window),
+ * and congestion level for each stadium zone.
+ * @param {Array} queries - All logged queries
+ * @returns {Object} Map of zoneId → { zone, count, velocity, queries, level }
+ */
 function computeZoneStats(queries) {
   const now = Date.now();
   const recentQueries = queries.filter(q => now - new Date(q.timestamp).getTime() < ROLLING_WINDOW_MS);
@@ -47,6 +54,14 @@ function computeZoneStats(queries) {
   return stats;
 }
 
+/**
+ * Detects anomalous zones by comparing query counts against the stadium-wide average.
+ * Zones exceeding ANOMALY_THRESHOLD × average trigger typed alerts
+ * (VOLUME SPIKE, FACILITY ISSUE, SAFETY ALERT, FLOW BREACH).
+ * @param {Array} queries - All logged queries
+ * @param {Object} zoneStats - Pre-computed zone statistics
+ * @returns {Array} List of anomaly objects with type, severity, and description
+ */
 function computeAnomalies(queries, zoneStats) {
   const anomalies = [];
   const avgCount = Object.values(zoneStats).reduce((s, z) => s + z.count, 0) / Object.values(zoneStats).length;
@@ -90,6 +105,13 @@ function computeAnomalies(queries, zoneStats) {
   return anomalies;
 }
 
+/**
+ * Clusters recent queries by intent+zone to surface trending topics.
+ * Compares against the previous window to compute velocity (% change).
+ * Returns top 8 trending clusters sorted by velocity.
+ * @param {Array} queries - All logged queries
+ * @returns {Array} Sorted list of trending topic clusters
+ */
 function computeTrending(queries) {
   const now = Date.now();
   const recent = queries.filter(q => now - new Date(q.timestamp).getTime() < ROLLING_WINDOW_MS);
@@ -177,9 +199,10 @@ export function QueryProvider({ children }) {
     }
   }, [state.isSimulatorRunning]);
 
-  const zoneStats = computeZoneStats(state.queries);
-  const anomalies = computeAnomalies(state.queries, zoneStats);
-  const trending = computeTrending(state.queries);
+  // Memoize expensive computations — only recalculate when queries change
+  const zoneStats = useMemo(() => computeZoneStats(state.queries), [state.queries]);
+  const anomalies = useMemo(() => computeAnomalies(state.queries, zoneStats), [state.queries, zoneStats]);
+  const trending = useMemo(() => computeTrending(state.queries), [state.queries]);
 
   const value = {
     ...state,

@@ -28,18 +28,23 @@ export default function Heatmap() {
         })}
       </div>
 
-      <div className="heatmap-legend">
-        {[
-          { label: 'Low', color: 'var(--zone-low)' },
-          { label: 'Med', color: 'var(--zone-med)' },
-          { label: 'High', color: 'var(--zone-high)' },
-          { label: 'Critical', color: 'var(--zone-critical)' },
-        ].map(item => (
-          <div key={item.label} className="heatmap-legend-item">
-            <div className="heatmap-legend-dot" style={{ background: item.color }} />
-            <span>{item.label}</span>
-          </div>
-        ))}
+      <div className="heatmap-footer">
+        <div className="heatmap-legend">
+          {[
+            { label: 'Low', color: 'var(--zone-low)' },
+            { label: 'Med', color: 'var(--zone-med)' },
+            { label: 'High', color: 'var(--zone-high)' },
+            { label: 'Critical', color: 'var(--zone-critical)' },
+          ].map(item => (
+            <div key={item.label} className="heatmap-legend-item">
+              <div className="heatmap-legend-dot" style={{ background: item.color }} />
+              <span>{item.label}</span>
+            </div>
+          ))}
+        </div>
+        <span className="explore-link">
+          🧭 Explore Layers
+        </span>
       </div>
     </div>
   );

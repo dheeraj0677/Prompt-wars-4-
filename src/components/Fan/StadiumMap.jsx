@@ -41,7 +41,7 @@ export default function StadiumMap() {
 
   return (
     <div className="stadium-map-container">
-      <svg viewBox="0 0 300 175" className="stadium-map-svg">
+      <svg viewBox="0 0 300 175" className="stadium-map-svg" role="img" aria-label="Interactive stadium map showing 9 zones with live congestion levels. Click or press Enter on a zone to set your location.">
         {/* Background field */}
         <defs>
           <linearGradient id="fieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -75,13 +75,19 @@ export default function StadiumMap() {
         {zonePositions.map((pos) => {
           const isActive = pos.id === fanLocation;
           const stat = zoneStats[pos.id];
+          const levelLabel = stat?.level || 'low';
           
           return (
             <g
               key={pos.id}
               className={`map-zone ${isActive ? 'active' : ''}`}
               onClick={() => setFanLocation(pos.id)}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setFanLocation(pos.id); } }}
               style={{ cursor: 'pointer' }}
+              role="button"
+              tabIndex={0}
+              aria-label={`${pos.label} — ${stat?.count || 0} queries, congestion ${levelLabel}${isActive ? ', your current location' : ''}`}
+              aria-pressed={isActive}
             >
               <rect
                 x={pos.x}

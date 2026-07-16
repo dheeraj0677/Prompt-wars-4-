@@ -81,7 +81,7 @@ export default function StaffChat() {
     <div className="staff-chat">
       <div className="staff-chat-header">
         <span className="section-title">🤖 AI Staff Analyst</span>
-        <span style={{ fontSize: 10, color: 'var(--accent-emerald)', fontWeight: 600, padding: '2px 8px', background: 'rgba(16,185,129,0.1)', borderRadius: 'var(--radius-full)' }}>
+        <span style={{ fontSize: 10, color: 'var(--accent-emerald)', fontWeight: 600, padding: '2px 8px', background: '#ecfdf5', borderRadius: 'var(--radius-full)', border: '1px solid rgba(16,185,129,0.2)' }}>
           Intelligence
         </span>
       </div>
@@ -99,7 +99,7 @@ export default function StaffChat() {
         ))}
 
         {isLoading && (
-          <div className="staff-message assistant" style={{ fontStyle: 'italic', color: 'var(--text-muted)' }}>
+          <div className="staff-message assistant" style={{ fontStyle: 'italic', color: '#94a3b8' }}>
             Analyzing real-time tagged logs...
           </div>
         )}

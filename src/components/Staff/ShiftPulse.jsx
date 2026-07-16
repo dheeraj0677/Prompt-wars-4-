@@ -72,11 +72,12 @@ export default function ShiftPulse() {
             padding: '4px 12px',
             fontSize: 11,
             borderRadius: 'var(--radius-full)',
-            border: '1px solid var(--border-medium)',
-            background: 'var(--bg-surface)',
+            border: '1px solid var(--border-subtle)',
+            background: 'white',
             color: 'var(--text-secondary)',
             cursor: 'pointer',
             fontFamily: 'var(--font-body)',
+            boxShadow: 'var(--shadow-sm)',
           }}
         >
           {isGenerating ? '⏳ Generating...' : '🔄 Refresh'}
