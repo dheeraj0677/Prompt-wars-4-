@@ -1,10 +1,12 @@
 import { useEffect, useRef } from 'react';
 import { QueryProvider, useQueryStore } from './store/queryStore';
+import { Suspense, lazy } from 'react';
 import Header from './components/Header';
-import FanView from './components/Fan/FanView';
-import StaffView from './components/Staff/StaffView';
-import AnalyticsView from './components/Analytics/AnalyticsView';
 import ErrorBoundary from './components/ErrorBoundary';
+
+const FanView = lazy(() => import('./components/Fan/FanView'));
+const StaffView = lazy(() => import('./components/Staff/StaffView'));
+const AnalyticsView = lazy(() => import('./components/Analytics/AnalyticsView'));
 
 function AppContent() {
   const { activeView } = useQueryStore();
@@ -24,19 +26,21 @@ function AppContent() {
       </a>
       <Header />
       <main ref={mainRef} tabIndex="-1" id="main-content" className="main-content" key={activeView} role="main" aria-label="FanPulse main content area" style={{ outline: 'none' }}>
-        {activeView === 'fan' && <FanView />}
-        {activeView === 'staff' && <StaffView />}
-        {activeView === 'analytics' && <AnalyticsView />}
+        <Suspense fallback={<div className="loading-state" style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>Loading...</div>}>
+          {activeView === 'fan' && <FanView />}
+          {activeView === 'staff' && <StaffView />}
+          {activeView === 'analytics' && <AnalyticsView />}
+        </Suspense>
       </main>
       <footer className="footer" role="contentinfo">
         <div>
           © 2026 FIFA World Cup™ &nbsp;&nbsp;
-          <a href="#" onClick={e => e.preventDefault()}>Official AI Concierge Partner</a>
+          <span className="footer-partner">Official AI Concierge Partner</span>
         </div>
         <div className="footer-links">
-          <a href="#" onClick={e => e.preventDefault()}>Privacy Policy</a>
-          <a href="#" onClick={e => e.preventDefault()}>Safety Protocols</a>
-          <a href="#" onClick={e => e.preventDefault()}>Terms of Service</a>
+          <button type="button">Privacy Policy</button>
+          <button type="button">Safety Protocols</button>
+          <button type="button">Terms of Service</button>
         </div>
       </footer>
     </div>

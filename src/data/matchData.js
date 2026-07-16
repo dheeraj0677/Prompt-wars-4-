@@ -29,7 +29,7 @@ function randomPlayer(teamCode) {
   return names[Math.floor(Math.random() * names.length)];
 }
 
-function generateEvent(minute, existingEvents) {
+function generateEvent(minute, _existingEvents) {
   const totalWeight = EVENT_TYPES.reduce((s, e) => s + e.weight, 0);
   let r = Math.random() * totalWeight;
   let eventType = EVENT_TYPES[0];

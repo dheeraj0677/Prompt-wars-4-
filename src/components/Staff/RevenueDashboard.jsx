@@ -1,5 +1,5 @@
 // Revenue Dashboard — concession sales, merchandise, revenue breakdown
-import { getStadiumTotals, SECTIONS, getSectionLiveData, PRICE_TIERS } from '../../data/sections';
+import { getStadiumTotals } from '../../data/sections';
 import { FOOD_MENU } from '../../data/socialData';
 
 export default function RevenueDashboard() {

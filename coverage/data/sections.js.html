@@ -1,0 +1,451 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for data/sections.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">data</a> sections.js</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>32/32</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">86.66% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>13/15</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>11/11</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">100% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>29/29</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line high'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">120x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">72x</span>
+<span class="cline-any cline-yes">72x</span>
+<span class="cline-any cline-yes">72x</span>
+<span class="cline-any cline-yes">72x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">160x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">64x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// 24 Stadium Sections — detailed bowl layout for heatmap visualization
+// Lusail Stadium (80,000 capacity) — FIFA World Cup 2026
+&nbsp;
+export const TIERS = {
+  LOWER: { name: 'Lower Tier', level: 1, priceMultiplier: 1.5 },
+  MIDDLE: { name: 'Middle Tier', level: 2, priceMultiplier: 1.0 },
+  UPPER: { name: 'Upper Tier', level: 3, priceMultiplier: 0.7 },
+  VIP: { name: 'VIP / Hospitality', level: 0, priceMultiplier: 4.0 },
+};
+&nbsp;
+export const PRICE_TIERS = {
+  ECONOMY: { name: 'Economy', color: '#6b7280', basePrice: 120 },
+  STANDARD: { name: 'Standard', color: '#3b82f6', basePrice: 250 },
+  PREMIUM: { name: 'Premium', color: '#f59e0b', basePrice: 480 },
+  VIP: { name: 'VIP', color: '#a855f7', basePrice: 950 },
+  ULTRA_VIP: { name: 'Ultra VIP', color: '#ec4899', basePrice: 2200 },
+};
+&nbsp;
+// Each section positioned around an oval stadium bowl
+// angle: position around the oval (0=north, 90=east, 180=south, 270=west)
+// tier: lower/middle/upper/vip
+export const SECTIONS = [
+  // ── Lower Tier (closest to pitch) ──
+  { id: 'L101', name: 'Section 101', tier: 'LOWER', angle: 0, capacity: 3200, viewRating: 8.5, priceTier: 'PREMIUM', rows: 28, features: ['Corner Flag View', 'Close to Pitch'] },
+  { id: 'L102', name: 'Section 102', tier: 'LOWER', angle: 30, capacity: 3400, viewRating: 9.1, priceTier: 'PREMIUM', rows: 30, features: ['Midfield Adjacent', 'Player Tunnel View'] },
+  { id: 'L103', name: 'Section 103', tier: 'LOWER', angle: 60, capacity: 3400, viewRating: 9.5, priceTier: 'VIP', rows: 30, features: ['Center Midfield', 'Best Lower Tier View'] },
+  { id: 'L104', name: 'Section 104', tier: 'LOWER', angle: 90, capacity: 3200, viewRating: 9.2, priceTier: 'PREMIUM', rows: 28, features: ['Midfield', 'Bench Side'] },
+  { id: 'L105', name: 'Section 105', tier: 'LOWER', angle: 120, capacity: 3400, viewRating: 8.8, priceTier: 'PREMIUM', rows: 30, features: ['Goal End View'] },
+  { id: 'L106', name: 'Section 106', tier: 'LOWER', angle: 150, capacity: 3200, viewRating: 8.3, priceTier: 'STANDARD', rows: 28, features: ['Corner View'] },
+  { id: 'L107', name: 'Section 107', tier: 'LOWER', angle: 180, capacity: 3400, viewRating: 8.6, priceTier: 'PREMIUM', rows: 30, features: ['South Goal End'] },
+  { id: 'L108', name: 'Section 108', tier: 'LOWER', angle: 210, capacity: 3400, viewRating: 9.0, priceTier: 'PREMIUM', rows: 30, features: ['Midfield Adjacent'] },
+  { id: 'L109', name: 'Section 109', tier: 'LOWER', angle: 240, capacity: 3400, viewRating: 9.4, priceTier: 'VIP', rows: 30, features: ['Center Midfield', 'Camera Side', 'TV View'] },
+  { id: 'L110', name: 'Section 110', tier: 'LOWER', angle: 270, capacity: 3200, viewRating: 9.3, priceTier: 'VIP', rows: 28, features: ['Midfield', 'Main Camera'] },
+  { id: 'L111', name: 'Section 111', tier: 'LOWER', angle: 300, capacity: 3400, viewRating: 8.9, priceTier: 'PREMIUM', rows: 30, features: ['Goal End'] },
+  { id: 'L112', name: 'Section 112', tier: 'LOWER', angle: 330, capacity: 3200, viewRating: 8.4, priceTier: 'STANDARD', rows: 28, features: ['Corner View'] },
+&nbsp;
+  // ── Upper Tier ──
+  { id: 'U201', name: 'Section 201', tier: 'UPPER', angle: 0, capacity: 4000, viewRating: 7.2, priceTier: 'STANDARD', rows: 35, features: ['Panoramic View', 'Covered'] },
+  { id: 'U202', name: 'Section 202', tier: 'UPPER', angle: 45, capacity: 4200, viewRating: 7.8, priceTier: 'STANDARD', rows: 38, features: ['Wide Angle View'] },
+  { id: 'U203', name: 'Section 203', tier: 'UPPER', angle: 90, capacity: 4200, viewRating: 8.0, priceTier: 'STANDARD', rows: 38, features: ['Midfield Elevated', 'Full Pitch View'] },
+  { id: 'U204', name: 'Section 204', tier: 'UPPER', angle: 135, capacity: 4000, viewRating: 7.5, priceTier: 'ECONOMY', rows: 35, features: ['Goal End Elevated'] },
+  { id: 'U205', name: 'Section 205', tier: 'UPPER', angle: 180, capacity: 4200, viewRating: 7.3, priceTier: 'ECONOMY', rows: 38, features: ['South View'] },
+  { id: 'U206', name: 'Section 206', tier: 'UPPER', angle: 225, capacity: 4200, viewRating: 7.9, priceTier: 'STANDARD', rows: 38, features: ['Wide Angle View'] },
+  { id: 'U207', name: 'Section 207', tier: 'UPPER', angle: 270, capacity: 4200, viewRating: 8.1, priceTier: 'STANDARD', rows: 38, features: ['Midfield Elevated', 'Camera Side'] },
+  { id: 'U208', name: 'Section 208', tier: 'UPPER', angle: 315, capacity: 4000, viewRating: 7.6, priceTier: 'ECONOMY', rows: 35, features: ['Corner Elevated'] },
+&nbsp;
+  // ── VIP / Hospitality ──
+  { id: 'V301', name: 'VIP West', tier: 'VIP', angle: 270, capacity: 1200, viewRating: 9.8, priceTier: 'ULTRA_VIP', rows: 12, features: ['Premium Dining', 'Private Lounge', 'Best View in Stadium'] },
+  { id: 'V302', name: 'VIP East', tier: 'VIP', angle: 90, capacity: 1200, viewRating: 9.6, priceTier: 'ULTRA_VIP', rows: 12, features: ['Premium Dining', 'Skybox Access'] },
+  { id: 'V303', name: 'VIP North', tier: 'VIP', angle: 0, capacity: 800, viewRating: 9.0, priceTier: 'VIP', rows: 8, features: ['Corner Hospitality', 'Open Bar'] },
+  { id: 'V304', name: 'VIP South', tier: 'VIP', angle: 180, capacity: 800, viewRating: 8.8, priceTier: 'VIP', rows: 8, features: ['Goal End Hospitality', 'Premium Catering'] },
+];
+&nbsp;
+// Generate simulated live data for each section
+let _sectionLiveData = null;
+&nbsp;
+export function getSectionLiveData() {
+  if (!_sectionLiveData) {
+    _sectionLiveData = {};
+    SECTIONS.forEach(sec =&gt; {
+      const occupancyBase = sec.tier === 'VIP' ? 0.92 : sec.tier === 'LOWER' ? 0.88 : 0.78;
+      const occupancy = Math.min(1, occupancyBase + (Math.random() * 0.15 - 0.05));
+      const ticketsSold = Math.floor(sec.capacity * (occupancy + Math.random() * 0.05));
+&nbsp;
+      _sectionLiveData[sec.id] = {
+        occupancy: Math.round(occupancy * 100),
+        ticketsSold: Math.min(ticketsSold, sec.capacity),
+        ticketsAvailable: Math.max(0, sec.capacity - ticketsSold),
+        currentAttendance: Math.floor(ticketsSold * (0.85 + Math.random() * 0.12)),
+        temperature: Math.round(28 + Math.random() * 8), // 28-36°C
+        noiseLevel: Math.round(70 + Math.random() * 25), // 70-95 dB
+        crowdDensity: occupancy &gt; 0.9 ? 'critical' : occupancy &gt; 0.75 ? 'high' : occupancy &gt; 0.5 ? 'medium' : <span class="branch-1 cbranch-no" title="branch not covered" >'low',</span>
+        revenue: Math.round(ticketsSold * (PRICE_TIERS[sec.priceTier]?.basePrice || <span class="branch-1 cbranch-no" title="branch not covered" >250))</span>,
+      };
+    });
+  }
+  return _sectionLiveData;
+}
+&nbsp;
+// Refresh live data (simulate changes)
+export function refreshSectionLiveData() {
+  _sectionLiveData = null;
+  return getSectionLiveData();
+}
+&nbsp;
+// Get total stadium stats
+export function getStadiumTotals() {
+  const live = getSectionLiveData();
+  let totalCapacity = 0, totalSold = 0, totalAttendance = 0, totalRevenue = 0;
+  SECTIONS.forEach(sec =&gt; {
+    totalCapacity += sec.capacity;
+    totalSold += live[sec.id].ticketsSold;
+    totalAttendance += live[sec.id].currentAttendance;
+    totalRevenue += live[sec.id].revenue;
+  });
+  return {
+    totalCapacity,
+    totalSold,
+    totalAttendance,
+    totalRevenue,
+    occupancyRate: Math.round((totalSold / totalCapacity) * 100),
+    attendanceRate: Math.round((totalAttendance / totalSold) * 100),
+    noShowRate: Math.round(((totalSold - totalAttendance) / totalSold) * 100),
+    avgTicketPrice: Math.round(totalRevenue / totalSold),
+  };
+}
+&nbsp;
+// Best view sections sorted by rating
+export function getBestViewSections(limit = 5) {
+  return [...SECTIONS]
+    .sort((a, b) =&gt; b.viewRating - a.viewRating)
+    .slice(0, limit);
+}
+&nbsp;
+// Sections with availability
+export function getAvailableSections() {
+  const live = getSectionLiveData();
+  return SECTIONS
+    .filter(sec =&gt; live[sec.id].ticketsAvailable &gt; 0)
+    .map(sec =&gt; ({ ...sec, ...live[sec.id] }))
+    .sort((a, b) =&gt; b.ticketsAvailable - a.ticketsAvailable);
+}
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-07-16T16:45:39.299Z
+            </div>
+        <script src="../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../sorter.js"></script>
+        <script src="../block-navigation.js"></script>
+    </body>
+</html>
+    

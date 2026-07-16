@@ -18,15 +18,28 @@ export default function FanView() {
   return (
     <div className="fan-view-wrapper">
       {/* Fan sub-tabs */}
-      <div className="fan-sub-tabs">
+      <div className="fan-sub-tabs" role="tablist" aria-label="Fan tools">
         {FAN_TABS.map(tab => (
-          <button key={tab.id} className={`fan-sub-tab ${activeTab === tab.id ? 'active' : ''}`} onClick={() => setActiveTab(tab.id)}>
+          <button
+            key={tab.id}
+            id={`fan-tab-${tab.id}`}
+            className={`fan-sub-tab ${activeTab === tab.id ? 'active' : ''}`}
+            onClick={() => setActiveTab(tab.id)}
+            role="tab"
+            aria-selected={activeTab === tab.id}
+            aria-controls={`fan-panel-${tab.id}`}
+          >
             {tab.label}
           </button>
         ))}
       </div>
 
-      <div className="fan-layout">
+      <div
+        className="fan-layout"
+        id={`fan-panel-${activeTab}`}
+        role="tabpanel"
+        aria-labelledby={`fan-tab-${activeTab}`}
+      >
         {activeTab === 'concierge' && (
           <>
             <ChatPanel />

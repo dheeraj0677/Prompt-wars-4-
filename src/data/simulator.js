@@ -1,5 +1,5 @@
 // Synthetic fan query generator — simulates a live stream of multilingual fan interactions
-import { ZONES, INTENT_CATEGORIES } from './stadium';
+import { ZONES } from './stadium';
 
 const QUERY_TEMPLATES = {
   en: {

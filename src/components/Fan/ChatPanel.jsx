@@ -14,7 +14,7 @@ const QUICK_ACTIONS = [
 ];
 
 export default function ChatPanel() {
-  const { fanMessages, addFanMessage, fanLocation, zoneStats, getHotZones } = useQueryStore();
+  const { fanMessages, addFanMessage, recordFanQuery, fanLocation, zoneStats, getHotZones } = useQueryStore();
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [hasShownNudge, setHasShownNudge] = useState(false);
@@ -38,7 +38,7 @@ export default function ChatPanel() {
         .filter(Boolean);
 
       if (adjacentLowZones.length > 0) {
-        setTimeout(() => {
+        const timeoutId = setTimeout(() => {
           addFanMessage({
             id: `nudge-${Date.now()}`,
             role: 'nudge',
@@ -47,8 +47,10 @@ export default function ChatPanel() {
           });
           setHasShownNudge(true);
         }, 8000);
+        return () => clearTimeout(timeoutId);
       }
     }
+    return undefined;
   }, [fanLocation, zoneStats, fanMessages.length, hasShownNudge, getHotZones, addFanMessage]);
 
   // Welcome message on first load
@@ -94,9 +96,18 @@ export default function ChatPanel() {
         result = getMockFanResponse(text.trim(), fanLocation);
       }
 
-      // Update the user message with detected intent/zone
-      userMsg.intent = result.intent;
-      userMsg.language = result.language;
+      const resolvedZoneId = ZONE_MAP[result.zone] ? result.zone : fanLocation;
+
+      recordFanQuery({
+        id: userMsg.id,
+        message: userMsg.content,
+        language: result.language,
+        intent: result.intent,
+        zoneId: resolvedZoneId,
+        zoneName: ZONE_MAP[resolvedZoneId]?.name || userMsg.zoneName,
+        timestamp: userMsg.timestamp,
+        urgency: result.urgency,
+      });
 
       const aiMsg = {
         id: `ai-${Date.now()}`,
@@ -114,6 +125,16 @@ export default function ChatPanel() {
       if (import.meta.env.DEV) {
         console.error('Chat error:', err);
       }
+      recordFanQuery({
+        id: userMsg.id,
+        message: userMsg.content,
+        language: 'en',
+        intent: 'general',
+        zoneId: fanLocation,
+        zoneName: ZONE_MAP[fanLocation]?.name || userMsg.zoneName,
+        timestamp: userMsg.timestamp,
+        urgency: 'normal',
+      });
       addFanMessage({
         id: `error-${Date.now()}`,
         role: 'assistant',
@@ -153,6 +174,7 @@ export default function ChatPanel() {
 
       <div className="chat-messages" role="log" aria-live="polite" aria-label="Chat conversation with FanPulse AI Concierge">
         {fanMessages.map((msg) => {
+          const safeContent = DOMPurify.sanitize(msg.content, { ALLOWED_TAGS: [] });
           if (msg.role === 'nudge') {
             return (
               <div key={msg.id} className="crowd-nudge">
@@ -167,7 +189,7 @@ export default function ChatPanel() {
                 {msg.role === 'user' ? '👤' : '🤖'}
               </div>
               <div>
-                <div className="message-bubble">{DOMPurify.sanitize(msg.content)}</div>
+                <div className="message-bubble">{safeContent}</div>
                 <div className="message-meta">
                   <span>{formatTime(msg.timestamp)}</span>
                   {msg.intent && msg.role === 'assistant' && (
@@ -207,6 +229,7 @@ export default function ChatPanel() {
             className="quick-chip"
             onClick={() => sendMessage(action.prompt)}
             disabled={isLoading}
+            aria-label={`Ask about ${action.label}`}
           >
             <span className="chip-icon">{action.icon}</span>
             {action.label}
@@ -238,9 +261,13 @@ export default function ChatPanel() {
         </div>
         <div className="chat-footer-info">
           <span>🔒 End-to-end encrypted · Data anonymized</span>
-          <span style={{ color: '#dc2626', cursor: 'pointer', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', fontSize: 10 }}>
+          <button
+            type="button"
+            className="incident-link"
+            aria-label="Report an incident to stadium staff"
+          >
             Report Incident
-          </span>
+          </button>
         </div>
       </div>
     </div>

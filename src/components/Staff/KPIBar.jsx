@@ -1,9 +1,10 @@
+import React from 'react';
 import { useQueryStore } from '../../store/queryStore';
 
-export default function KPIBar() {
+const KPIBar = React.memo(function KPIBar() {
   const { totalFanCount, recentQueryCount, avgLatency, anomalies } = useQueryStore();
 
-  const kpis = [
+  const kpis = React.useMemo(() => [
     {
       icon: '👥',
       label: 'Total Active Fans',
@@ -24,7 +25,7 @@ export default function KPIBar() {
       label: 'Active Anomalies',
       value: anomalies.length.toString().padStart(2, '0'),
     },
-  ];
+  ], [totalFanCount, recentQueryCount, avgLatency, anomalies.length]);
 
   return (
     <div className="kpi-bar">
@@ -33,10 +34,12 @@ export default function KPIBar() {
           <div className="kpi-icon">{kpi.icon}</div>
           <div>
             <div className="kpi-label">{kpi.label}</div>
-            <div className="kpi-value">{kpi.value}</div>
+            <div className="kpi-value" aria-live="polite" aria-atomic="true">{kpi.value}</div>
           </div>
         </div>
       ))}
     </div>
   );
-}
+});
+
+export default KPIBar;

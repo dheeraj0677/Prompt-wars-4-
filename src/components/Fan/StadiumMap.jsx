@@ -1,6 +1,5 @@
 import React from 'react';
 import { useQueryStore } from '../../store/queryStore';
-import { ZONES, ZONE_MAP } from '../../data/stadium';
 
 const StadiumMap = React.memo(function StadiumMap() {
   const { fanLocation, setFanLocation, zoneStats } = useQueryStore();

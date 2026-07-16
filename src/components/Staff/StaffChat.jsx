@@ -91,7 +91,7 @@ export default function StaffChat() {
 
       <div className="staff-chat-messages" role="log" aria-live="polite" aria-label="Staff chat logs">
         {staffMessages.map((msg) => {
-          const safeContent = DOMPurify.sanitize(msg.content);
+          const safeContent = DOMPurify.sanitize(msg.content, { ALLOWED_TAGS: [] });
           return (
             <div key={msg.id} className={`staff-message ${msg.role}`}>
               {safeContent.split('\n').map((line, i) => (

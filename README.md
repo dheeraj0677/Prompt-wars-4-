@@ -143,15 +143,15 @@ Fan Chat Input ──→ Claude API ──→ Response + Intent/Zone Tag
 
 1. **Demo Mode**: The app runs with a synthetic query simulator that generates fan queries every 3–8 seconds in 5 languages across 10 intent categories. This simulates a live stadium environment for evaluation purposes.
 
-2. **API Fallback**: The Claude API key is loaded from environment variables (`VITE_ANTHROPIC_API_KEY`). When unavailable, the app falls back to high-quality mock responses that demonstrate the full interaction flow. Evaluators do not need an API key to test.
+2. **API Fallback**: The Claude API key is loaded only by the Node proxy from `ANTHROPIC_API_KEY`. When unavailable, the app falls back to high-quality mock responses that demonstrate the full interaction flow. Evaluators do not need an API key to test.
 
 3. **Stadium Configuration**: Zone data (9 zones with adjacency, amenities, accessibility, transport) is config-driven. In production, this would be swapped per venue — the same codebase works for any stadium.
 
-4. **Client-Side Architecture**: All processing happens in the browser (React Context + useReducer). In production, the Query Store would be backed by a real-time database (Firebase/Supabase) with server-side aggregation.
+4. **Hybrid Architecture**: Operational state and analytics run in the browser for demo responsiveness, while AI provider calls are routed through the same-origin Node proxy so secrets remain server-side. In production, the Query Store would be backed by a real-time database (Firebase/Supabase) with server-side aggregation.
 
 5. **Language Detection**: Uses heuristic character-pattern analysis rather than a dedicated NLP model. This is sufficient for the 5 supported languages but would need improvement for closely related language pairs.
 
-6. **Security**: API calls go through `api.anthropic.com` directly from the browser using the `anthropic-dangerous-direct-browser-access` header. In production, this would be routed through a backend proxy to avoid exposing API keys. Input sanitization and rate limiting are implemented client-side.
+6. **Security**: Browser AI calls go only to `/api/claude`; `server.js` injects the Anthropic API key, enforces request-size limits, rate limits clients, sanitizes prompt fields, applies strict security headers, and returns generic upstream errors. The browser never receives provider credentials.
 
 7. **Accessibility**: The app follows WCAG 2.1 guidelines with ARIA attributes, keyboard navigation, semantic HTML, and skip-to-content navigation. Screen reader support is implemented for all interactive elements.
 
@@ -163,7 +163,7 @@ Fan Chat Input ──→ Claude API ──→ Response + Intent/Zone Tag
 |---|---|
 | **Frontend** | React 19 + Vite 8 |
 | **Styling** | Custom CSS design system (700+ lines, no Tailwind/Bootstrap) |
-| **AI** | Claude Sonnet 4 via Anthropic API |
+| **AI** | Claude Sonnet 4 via same-origin Node proxy + mock fallbacks |
 | **State** | React Context + useReducer |
 | **Testing** | Vitest |
 | **Design** | Dark stadium-ops aesthetic with glassmorphism, micro-animations, high-contrast typography |
@@ -181,7 +181,8 @@ src/
 │   ├── socialData.js        # Social media feed simulation
 │   └── sections.js          # Extended section data
 ├── store/
-│   └── queryStore.jsx       # Central state: queries, zone stats, anomaly detection, trending
+│   ├── analytics.js         # Pure analytics helpers: zones, anomalies, trending
+│   └── queryStore.jsx       # Central state: queries, fan/staff messages, view state
 ├── services/
 │   ├── prompts.js           # System prompts for all 5 Claude call types
 │   └── ai.js                # Claude API service + mock fallbacks + input sanitization
@@ -222,6 +223,7 @@ src/
 ├── App.jsx                  # Root with QueryProvider + ErrorBoundary + view routing
 ├── main.jsx                 # Entry point
 └── index.css                # Complete design system
+server.js                    # Production static server + secure Claude proxy
 ```
 
 ---
@@ -238,7 +240,7 @@ npm install
 
 # (Optional) Configure Claude API key
 cp .env.example .env
-# Edit .env and add your VITE_ANTHROPIC_API_KEY
+# Edit .env and add your ANTHROPIC_API_KEY
 
 # Start development server
 npm run dev
@@ -248,9 +250,12 @@ npm test
 
 # Build for production
 npm run build
+
+# Run the production server/proxy
+npm start
 ```
 
-The app runs at `http://localhost:5173/`. No API key is required — the app uses intelligent mock fallbacks.
+The Vite dev app runs at `http://localhost:5173/`; the production server runs at `http://localhost:3000/`. No API key is required — the app uses intelligent mock fallbacks.
 
 ---
 
@@ -262,8 +267,8 @@ FanPulse comes pre-configured for a zero-downtime deployment on Render.
 
 1. Click the **Deploy to Render** button above.
 2. Render will automatically detect the `render.yaml` blueprint.
-3. Provide an optional `VITE_ANTHROPIC_API_KEY` when prompted in the Render dashboard (the app works with mock fallbacks without it).
-4. Render will build and deploy the application as a Static Site.
+3. Provide an optional `ANTHROPIC_API_KEY` when prompted in the Render dashboard (the app works with mock fallbacks without it).
+4. Render will build and deploy the application as a Node web service that serves `dist/` and `/api/claude`.
 
 ---
 

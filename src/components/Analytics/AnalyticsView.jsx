@@ -18,15 +18,28 @@ export default function AnalyticsView() {
   return (
     <div className="analytics-view">
       {/* Sub-navigation */}
-      <div className="analytics-tabs">
+      <div className="analytics-tabs" role="tablist" aria-label="Analytics sections">
         {TABS.map(tab => (
-          <button key={tab.id} className={`analytics-tab ${activeTab === tab.id ? 'active' : ''}`} onClick={() => setActiveTab(tab.id)}>
+          <button
+            key={tab.id}
+            id={`analytics-tab-${tab.id}`}
+            className={`analytics-tab ${activeTab === tab.id ? 'active' : ''}`}
+            onClick={() => setActiveTab(tab.id)}
+            role="tab"
+            aria-selected={activeTab === tab.id}
+            aria-controls={`analytics-panel-${tab.id}`}
+          >
             {tab.label}
           </button>
         ))}
       </div>
 
-      <div className="analytics-content">
+      <div
+        className="analytics-content"
+        id={`analytics-panel-${activeTab}`}
+        role="tabpanel"
+        aria-labelledby={`analytics-tab-${activeTab}`}
+      >
         {activeTab === 'historical' && <HistoricalComparison />}
         {activeTab === 'language' && <LanguageAnalytics />}
         {activeTab === 'performance' && <PerformanceMetrics />}

@@ -25,7 +25,7 @@ const PRICE_COLORS = (tier) => {
 };
 
 // Generate section path positions around an oval
-function getSectionPath(angle, tier, index) {
+function getSectionPath(angle, tier, _index) {
   const cx = 250, cy = 175;
   const rad = (angle - 90) * (Math.PI / 180);
 

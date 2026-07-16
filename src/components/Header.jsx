@@ -13,7 +13,7 @@ export default function Header() {
             aria-current={activeView === 'fan' ? 'page' : undefined}
             aria-label="Switch to Fan View"
           >
-            <span>👤</span> Fan View
+          <span aria-hidden="true">👤</span> Fan View
           </button>
           <button
             className={activeView === 'staff' ? 'active' : ''}
@@ -21,7 +21,7 @@ export default function Header() {
             aria-current={activeView === 'staff' ? 'page' : undefined}
             aria-label="Switch to Staff View"
           >
-            <span>📊</span> Staff View
+          <span aria-hidden="true">📊</span> Staff View
           </button>
           <button
             className={activeView === 'analytics' ? 'active' : ''}
@@ -29,7 +29,7 @@ export default function Header() {
             aria-current={activeView === 'analytics' ? 'page' : undefined}
             aria-label="Switch to Analytics View"
           >
-            <span>📈</span> Analytics
+          <span aria-hidden="true">📈</span> Analytics
           </button>
         </nav>
 
@@ -52,11 +52,11 @@ export default function Header() {
         </div>
         {/* Mini score ticker */}
         <div className="header-score-ticker">
-          <span>🇧🇷</span>
+          <span aria-hidden="true">🇧🇷</span>
           <span className="ticker-score">{queries.filter(q => q.intent === 'goal').length || 1}</span>
           <span className="ticker-divider">-</span>
           <span className="ticker-score">{Math.max(0, queries.filter(q => q.intent === 'goal').length - 1) || 0}</span>
-          <span>🇫🇷</span>
+          <span aria-hidden="true">🇫🇷</span>
         </div>
       </div>
 
@@ -66,16 +66,16 @@ export default function Header() {
           LIVE FEED
         </div>
         <div className="header-lang">
-          <span>🌐</span>
+          <span aria-hidden="true">🌐</span>
           EN/ES/FR
         </div>
         <button className="header-icon-btn" aria-label={`Notifications, ${anomalies.length} unread`} title="Notifications" style={{ position: 'relative' }}>
           🔔
           {anomalies.length > 0 && <span className="notification-count" aria-hidden="true">{anomalies.length}</span>}
         </button>
-        <div className="header-avatar" title="Profile" role="button" tabIndex="0" aria-label="User Profile">
+        <button type="button" className="header-avatar" title="Profile" aria-label="User Profile">
           D
-        </div>
+        </button>
       </div>
     </header>
   );
